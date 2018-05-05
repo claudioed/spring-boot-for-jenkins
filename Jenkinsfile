@@ -1,6 +1,7 @@
 pipeline {
   environment {
     docker = credentials("claudio-docker")
+    BRANCH = 'master'
   }
 
   agent any
@@ -25,8 +26,5 @@ pipeline {
         sh 'mvn -Ddocker.username=$docker_USR -Ddocker.password=$docker_PSW clean install docker:build docker:push'
       }
     }
-  }
-  environment {
-    BRANCH = 'master'
   }
 }
