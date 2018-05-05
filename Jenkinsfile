@@ -1,4 +1,8 @@
 pipeline {
+  environment {
+    docker = credentials("claudio-docker")
+  }
+
   agent any
   stages {
     stage('clean') {
@@ -14,6 +18,11 @@ pipeline {
     stage('docker-image') {
       steps {
         sh 'mvn clean install docker:build'
+      }
+    }
+    stage('docker-image') {
+      steps {
+        sh 'mvn -Ddocker.username=$docker_USR -Ddocker.password=$docker_PSW clean install docker:build docker:push'
       }
     }
   }
