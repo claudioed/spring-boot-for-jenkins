@@ -20,7 +20,7 @@ pipeline {
         sh 'mvn clean install docker:build'
       }
     }
-    stage('docker-image') {
+    stage('docker-image-push') {
       steps {
         sh 'mvn -Ddocker.username=$docker_USR -Ddocker.password=$docker_PSW clean install docker:build docker:push'
       }
