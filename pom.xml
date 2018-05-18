@@ -6,7 +6,7 @@
 
   <groupId>tech.claudioed</groupId>
   <artifactId>spring-boot-for-jenkins</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>${version.number}</version>
   <packaging>jar</packaging>
 
   <name>spring-boot-for-jenkins</name>
@@ -23,6 +23,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <java.version>1.8</java.version>
+    <version.number>${git.commit.time}.${git.commit.id.abbrev}</version.number>
   </properties>
 
   <dependencies>
@@ -87,7 +88,7 @@
                   </inline>
                 </assembly>
                 <tags>
-                  <tag>latest</tag>
+                  <tag>${version.number}</tag>
                 </tags>
                 <ports>
                   <port>8080</port>
@@ -99,6 +100,25 @@
               <alias>${project.build.finalName}</alias>
             </image>
           </images>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>pl.project13.maven</groupId>
+        <artifactId>git-commit-id-plugin</artifactId>
+        <version>2.2.4</version>
+        <executions>
+          <execution>
+            <phase>validate</phase>
+            <goals>
+              <goal>revision</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <dateFormat>yyyyMMdd-HHmmss</dateFormat><!--  human-readable part of the version number -->
+          <dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
+          <generateGitPropertiesFile>false</generateGitPropertiesFile><!-- somehow necessary. otherwise the variables are not available in the pom -->
         </configuration>
       </plugin>
 
